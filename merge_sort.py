@@ -1,13 +1,13 @@
 """ Understanding Merge Sort """
 
 import timeit
+import random
 from memory_profiler import profile
 
 # @profile
 def merge(array, first, mid, last):
     """ Will merge the array by splitting them into 2 temporary arrays in the middle and comparing 
         them 1 element at a time and store the smallest one in the array """
-
     first_array_length = mid - first + 1                # Size for first temporary array
     second_array_length = last - mid                    # Size for second temporary array
 
@@ -50,7 +50,6 @@ def merge(array, first, mid, last):
 def merge_sort(array, left, right):
     """ Function that will take array, leftmost index and rightmost index of array 
         as an input and return sorted array """
-
     if left < right:
         mid = (left + right) // 2
 
@@ -63,17 +62,25 @@ def merge_sort(array, left, right):
 
 def print_execution_times(array_name):
     """ Function to print execution times """
-
     timer_stmt = '''merge_sort({0}, 0, len({0}) - 1)'''
     times = timeit.repeat(stmt=timer_stmt.format(array_name), repeat=5, number=10000, globals=globals())
-    print('Merge sort time for randomized array: ' + str(min(times)))
+    print('Total execution time: ' + str(min(times)))
+
+def huge_random_array():
+    """ Function to return huge number of random integers for testing purpose """
+    array = []
+    max_numbers = 500
+    for i in range(max_numbers):
+        array.append(random.randint(0, max_numbers))
+    return array
 
 # Testing performance of algorithms on these arrays
 randomized_array = [23, 65, 98, 1, 36, 47, 76, 28, 83, 15]
 sorted_array = [1, 15, 23, 28, 36, 47, 65, 76, 83, 98]
 reversed_sorted_array = [98, 83, 76, 65, 47, 36, 28, 23, 15, 1]
 
-
+# Print execution times for the array
 print_execution_times(randomized_array)
 print_execution_times(sorted_array)
 print_execution_times(reversed_sorted_array)
+print_execution_times(huge_random_array())
